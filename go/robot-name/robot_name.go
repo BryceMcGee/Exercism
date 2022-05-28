@@ -12,14 +12,15 @@ type Robot struct {
 	name string
 }
 
-//making the nested map global so that it is accessible in other functions
-
+//making the namesList map global so that it is accessible in other functions
 var namesList map[string]string
 
+//init is initializing the namesList map
 func init() {
 	namesList = make(map[string]string)
 }
 
+//nameGen does most of the heavy lifting, actually assigning a name to the Robot struct instance
 func (r *Robot) nameGen() (string, error) {
 	if len(namesList) == 676000 {
 		return "", errors.New("available names exhausted")
@@ -43,7 +44,7 @@ func (r *Robot) nameGen() (string, error) {
 	return name, nil
 }
 
-//Name assigns a robot a name with structure "XXNNN" where X is alpha and N is numeric. Returns error if no names are available.
+//Name returns a string of the name value of the Robot struct instance. If no name is set, nameGen is called to give it one.
 func (r *Robot) Name() (string, error) {
 	if r.name == "" {
 		name, err := r.nameGen()
