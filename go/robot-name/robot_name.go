@@ -13,11 +13,11 @@ type Robot struct {
 }
 
 //making the namesList map global so that it is accessible in other functions
-var namesList map[string]string
+var namesList map[string]bool
 
 //init is initializing the namesList map
 func init() {
-	namesList = make(map[string]string)
+	namesList = make(map[string]bool)
 }
 
 //nameGen does most of the heavy lifting, actually assigning a name to the Robot struct instance
@@ -32,13 +32,12 @@ func (r *Robot) nameGen() (string, error) {
 	FN := fmt.Sprintf("%03d", rand.Intn(1000))
 	name := FA + SA + FN
 
-	_, exists := namesList[name]
+	for namesList[name] {
 
-	for exists == false {
-		r.name = name
-		namesList[name] = ""
-		exists = true
+		return r.nameGen()
 	}
+
+	namesList[name] = true
 
 	//return name string, and nil, until there are no more available names, then return "", "no more names"
 	return name, nil
