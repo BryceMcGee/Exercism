@@ -17,6 +17,12 @@ func Solve(sizeBucketOne, sizeBucketTwo, goalAmount int, startBucket string) (st
 	b1 := bucket{sizeBucketOne, 0}
 	b2 := bucket{sizeBucketTwo, 0}
 
+	if startBucket == "two" {
+		b1.capacity = sizeBucketTwo
+		b2.capacity = sizeBucketOne
+	}
+
+	//error logic
 	if sizeBucketOne == 0 || sizeBucketTwo == 0 || goalAmount == 0 {
 		return "", 0, 0, invalidSize
 	}
@@ -25,17 +31,14 @@ func Solve(sizeBucketOne, sizeBucketTwo, goalAmount int, startBucket string) (st
 		return "", 0, 0, invalidStart
 	}
 
-	if startBucket == "two" {
-		b1.capacity = sizeBucketTwo
-		b2.capacity = sizeBucketOne
-	}
-
+	//exceptions
 	if goalAmount == b1.capacity && startBucket == "one" {
 		return "two", 1, b2.amount, nil
 	} else if goalAmount == b2.capacity && startBucket == "one" {
 		return "two", 2, 2, nil
 	}
 
+	//core bucket logic
 	for {
 		if b1.amount == goalAmount {
 			if startBucket == "one" {
